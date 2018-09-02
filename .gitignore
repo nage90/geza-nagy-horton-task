@@ -1,0 +1,9 @@
+target/
+npm-debug.log*
+
+# Intellij
+.idea/
+*.iml
+*.iws
+*~
+/node_modules

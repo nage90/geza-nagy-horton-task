@@ -1,0 +1,129 @@
+<!--
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<div class="pad-top-sm pad-bottom-sm pad-right-xxl pad-left-xxl">
+    <div layout="row" layout-align="space-between center">
+        <div flex fxLayout="row" fxLayoutAlign="end center">
+        </div>
+    </div>
+</div>
+<div id="app-explorer-grid-list-viewer-agents-container" class="pad-right-xxl pad-left-xxl">
+</div>
+
+
+<div class="header-container">
+    <div class="button-row">
+        <mat-form-field class="example-form-field">
+            <input matInput type="text"
+                   placeholder="Enter repository name and click to search..."
+                   [(ngModel)]="searchText">
+            <button mat-button *ngIf="searchText" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+        <button mat-raised-button (click)="searchRepositories()">Search</button>
+
+        <button mat-raised-button (click)="toggleChartVisibility()">
+            <span *ngIf="showChart">List</span>
+            <span *ngIf="!showChart">Chart</span>
+        </button>
+
+        <div class="result-count" *ngIf="!searchInProgress && repositories.length">
+            <span>{{totalCount}}</span> repository results
+        </div>
+
+    </div>
+    <mat-progress-bar *ngIf="searchInProgress" mode="indeterminate"></mat-progress-bar>
+
+
+    <div class="message" *ngIf="!searchText.length">Please enter at least one character.</div>
+
+</div>
+
+<div class="repositories-container" *ngIf="!showChart">
+    <div class="result-list-wrapper">
+        <mat-accordion *ngIf="!searchInProgress">
+            <mat-expansion-panel *ngFor="let repository of repositories">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <img *ngIf="repository.owner.avatar_url" class="avatar" [src]="repository.owner.avatar_url">
+                        <div class="title-text">{{repository.name}}</div>
+
+                        <div class="icon-wrapper">
+                            <mat-icon>star</mat-icon>
+                            <div class="count">{{repository.stargazers_count}}</div>
+                        </div>
+
+
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <mat-panel-description>
+                    {{repository.description}}
+                </mat-panel-description>
+
+                <div class="forks-count">
+                    Forks: <span>{{repository.forks_count}}</span>
+                </div>
+
+                <div class="url" (click)="openUrl(repository.html_url)">
+                    {{repository.html_url}}
+                </div>
+
+                <button *ngIf="!repository.showIssues"
+                        mat-raised-button color="primary"
+                        [disabled]="!repository.open_issues_count"
+                        (click)="getRepositoryIssues(repository)">
+                    Show issues |{{repository.open_issues_count}}|
+                </button>
+
+                <button mat-raised-button
+                        *ngIf="repository.showIssues"
+                        (click)="repository.showIssues = false">
+                    Hide issues
+                </button>
+
+                <mat-progress-bar *ngIf="repository.getIssuesInProgress" mode="indeterminate"></mat-progress-bar>
+
+
+                <div class="issues-section-container" *ngIf="repository.showIssues && repository.issues">
+                    <mat-list>
+                        <div class="mat-list-item-wrapper" *ngFor="let issue of repository.issues" (click)="openUrl(issue.html_url)">
+                            <mat-list-item>{{issue.title}}</mat-list-item>
+                            <mat-divider></mat-divider>
+                        </div>
+                    </mat-list>
+                </div>
+
+
+
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+
+</div>
+
+
+<div class="chart-container" *ngIf="showChart">
+    <app-bar-chart
+            *ngIf="repositories && repositories.length"
+            [repositories]="repositories"
+            [searchText]="searchText">
+
+    </app-bar-chart>
+</div>
+
