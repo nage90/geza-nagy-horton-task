@@ -8,7 +8,6 @@ I pushed the target folder as well which contains the built code and also deploy
 Here is the link: http://nagynapp.hu/github-repository-search
 
 #### Building locally
-Developers can perform code changes and easily build this project using **npm** from the root nifi-fds directory via:
 
 ```bash
 npm install
