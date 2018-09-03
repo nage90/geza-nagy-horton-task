@@ -36,6 +36,7 @@ describe('app-demo component spec', function () {
     var comp;
     var fixture;
     var appService;
+    var apiService;
 
     beforeEach(function () {
         ngCoreTesting.TestBed.configureTestingModule({
@@ -113,10 +114,43 @@ describe('app-demo component spec', function () {
 
         // AppService from the root injector
         appService = ngCoreTesting.TestBed.get(AppService);
+        apiService = ngCoreTesting.TestBed.get(ApiService);
     });
 
     it('should create component', function () {
         //assertions
         expect(comp).toBeDefined();
+    });
+
+    describe('Clear search function', function () {
+
+        beforeEach(function (done) {
+            this.clearSearch();
+            window.setTimeout(done, 1);
+        });
+
+        it('should clear repository list', function () {
+            expect(document.getElementsByTagName('mat-expansion-panel').length).toBeNull();
+        });
+    });
+
+    describe('Toggle chart visibility function', function () {
+
+        var showChart = false;
+        
+        beforeEach(function (done) {
+            this.toggleChartVisibility();
+            window.setTimeout(done, 1);
+        });
+
+        if(showChart){
+            it('should show chart', function () {
+                expect(document.getElementsByClassName('chart-container').length).toBeDefined();
+            });
+        } else{
+            it('show hide chart', function () {
+                expect(document.getElementsByClassName('chart-container').length).toBeNull();
+            });
+        }
     });
 });
