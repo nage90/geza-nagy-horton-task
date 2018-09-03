@@ -137,7 +137,7 @@ describe('app-demo component spec', function () {
     describe('Toggle chart visibility function', function () {
 
         var showChart = false;
-        
+
         beforeEach(function (done) {
             this.toggleChartVisibility();
             window.setTimeout(done, 1);

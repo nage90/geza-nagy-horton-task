@@ -1,41 +1,28 @@
-# ngx-seed
+# "github search" task
 
-The ngx-seed is an seed project for Angular applications written in ES5. This project comes complete with SASS compliation and minification, SystemJS build tools for bundling the application JS into a single file, Grunt tasks for minification and compression of the final application JS bundles, npm for dependency management and build scripts, themeing of preinstalled design systems (Angular Material, Teradata Covalent), Internationalization (i18n), and JS unit testing and reporting with Karma, Jasmine, and Istanbul.
+Here is my solution to the given task. I’ve to modified the scripts (I added as new to package.json), systemjs.builder (loader path) to make it work on my environment.
 
-#### Building
-Developers can perform code changes and easily build this project using **npm** from the root nifi-fds directory via:
+I’ve worked on bonus part (made a component for data visualization with d3js), but unfortunately I could not configure karma/jasmine because I don’t have much experience with that. 
 
-```bash
-npm run clean:install
-```
+I pushed the target folder as well which contains the built code and also deployed it to one of my unused domain to make sure that you can test it.
+Here is the link: http://nagynapp.hu/github-repository-search
 
-or to build without running unit tests run:
+#### Building locally
 
 ```bash
-npm run clean:install:skipTests
+npm install
 ```
-
-Developers can speed up development time by skipping the re-installation of all node_modules:
 
 ```bash
-npm run dev:install
+npm run clean:install:skipTests:modified
 ```
-
-or to skip re-installation of node_modules as well as building without running unit tests:
-
-```bash
-npm run dev:install:skipTests
-```
-
-#### Running locally
-Once built you can start the application from the target directory via:
 
 ```bash
 cd target
-npm start
 ```
 
-The ngx-seed demo application should now be availalbe at: [http://127.0.0.1:8080/](http://127.0.0.1:8080/). The port may differ if there is a conflict on 8080. See the output of the start command for the
-available URLs.
+```bash
+http-server
+```
 
 

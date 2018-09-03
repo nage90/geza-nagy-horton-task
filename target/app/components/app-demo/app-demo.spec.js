@@ -28,11 +28,15 @@ var App = require('app/app.js');
 var AppDemo = require('app/components/app-demo/app-demo.js');
 var AppDemoDialog = require('app/components/app-demo/dialogs/demo/app-demo-dialog.js');
 var AppService = require('app/services/app.service.js');
+var http = require('@angular/http');
+var ApiService = require('app/services/api.service.js');
+var AppBarChart = require('app/components/app-demo/chart/app-bar-chart.js');
 
 describe('app-demo component spec', function () {
     var comp;
     var fixture;
     var appService;
+    var apiService;
 
     beforeEach(function () {
         ngCoreTesting.TestBed.configureTestingModule({
@@ -82,12 +86,14 @@ describe('app-demo component spec', function () {
                 covalentCore.CovalentPagingModule,
                 covalentCore.CovalentSearchModule,
                 covalentCore.CovalentStepsModule,
-                AppRoutes
+                AppRoutes,
+                http.HttpModule
             ],
             declarations: [
                 App,
                 AppDemo,
-                AppDemoDialog
+                AppDemoDialog,
+                AppBarChart
             ],
             entryComponents: [
                 AppDemoDialog
@@ -97,7 +103,8 @@ describe('app-demo component spec', function () {
                 {
                     provide: ngCommon.APP_BASE_HREF,
                     useValue: '/'
-                }
+                },
+                ApiService
             ],
             bootstrap: [App]
         });
@@ -107,10 +114,43 @@ describe('app-demo component spec', function () {
 
         // AppService from the root injector
         appService = ngCoreTesting.TestBed.get(AppService);
+        apiService = ngCoreTesting.TestBed.get(ApiService);
     });
 
     it('should create component', function () {
         //assertions
         expect(comp).toBeDefined();
+    });
+
+    describe('Clear search function', function () {
+
+        beforeEach(function (done) {
+            this.clearSearch();
+            window.setTimeout(done, 1);
+        });
+
+        it('should clear repository list', function () {
+            expect(document.getElementsByTagName('mat-expansion-panel').length).toBeNull();
+        });
+    });
+
+    describe('Toggle chart visibility function', function () {
+
+        var showChart = false;
+
+        beforeEach(function (done) {
+            this.toggleChartVisibility();
+            window.setTimeout(done, 1);
+        });
+
+        if(showChart){
+            it('should show chart', function () {
+                expect(document.getElementsByClassName('chart-container').length).toBeDefined();
+            });
+        } else{
+            it('show hide chart', function () {
+                expect(document.getElementsByClassName('chart-container').length).toBeNull();
+            });
+        }
     });
 });

@@ -28,6 +28,7 @@ var App = require('app/app.js');
 var AppDemo = require('app/components/app-demo/app-demo.js');
 var AppDemoDialog = require('app/components/app-demo/dialogs/demo/app-demo-dialog.js');
 var AppService = require('app/services/app.service.js');
+var AppBarChart = require('app/components/app-demo/chart/app-bar-chart.js');
 
 describe('app module spec', function () {
     var comp;
@@ -90,7 +91,8 @@ describe('app module spec', function () {
                 AppDemoDialog
             ],
             entryComponents: [
-                AppDemoDialog
+                AppDemoDialog,
+                AppBarChart
             ],
             providers: [
                 AppService,
