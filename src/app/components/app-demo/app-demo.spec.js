@@ -28,6 +28,9 @@ var App = require('app/app.js');
 var AppDemo = require('app/components/app-demo/app-demo.js');
 var AppDemoDialog = require('app/components/app-demo/dialogs/demo/app-demo-dialog.js');
 var AppService = require('app/services/app.service.js');
+var http = require('@angular/http');
+var ApiService = require('app/services/api.service.js');
+var AppBarChart = require('app/components/app-demo/chart/app-bar-chart.js');
 
 describe('app-demo component spec', function () {
     var comp;
@@ -82,12 +85,14 @@ describe('app-demo component spec', function () {
                 covalentCore.CovalentPagingModule,
                 covalentCore.CovalentSearchModule,
                 covalentCore.CovalentStepsModule,
-                AppRoutes
+                AppRoutes,
+                http.HttpModule
             ],
             declarations: [
                 App,
                 AppDemo,
-                AppDemoDialog
+                AppDemoDialog,
+                AppBarChart
             ],
             entryComponents: [
                 AppDemoDialog
@@ -97,7 +102,8 @@ describe('app-demo component spec', function () {
                 {
                     provide: ngCommon.APP_BASE_HREF,
                     useValue: '/'
-                }
+                },
+                ApiService
             ],
             bootstrap: [App]
         });
